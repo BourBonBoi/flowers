@@ -10,6 +10,8 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
+
 public class Flower {
 
     private int productId;
@@ -19,6 +21,8 @@ public class Flower {
     private double price;
     private String photo;
     private Bitmap bitmap;
+
+    private String description;
 
     public int getProductId() {
         return productId;
@@ -30,6 +34,10 @@ public class Flower {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setName(String name) {
@@ -64,6 +72,10 @@ public class Flower {
         return photo;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setPhoto(String photo) {
         this.photo = photo;
     }
@@ -84,6 +96,9 @@ public class Flower {
 interface FlowersAPI {
     @GET("feeds/flowers.json")
     Call<List<Flower>> getData();
+
+    @GET("feeds/flower/{id}.json") // Предполагается что у вас есть эндпоинт для получения описания по ID
+    Call<Flower> getFlower(@Path("id") int id);
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://services.hanselandpetal.com/")
